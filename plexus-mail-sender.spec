@@ -28,8 +28,8 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-%define gcj_support  %{?_with_gcj_support:1}%{!?_with_gcj_support:%{?_without_gcj_support:0}%{!?_without_gcj_support:%{?_gcj_support:%{_gcj_support}}%{!?_gcj_support:0}}}
 %define _with_gcj_support 1
+%define gcj_support  %{?_with_gcj_support:1}%{!?_with_gcj_support:%{?_without_gcj_support:0}%{!?_without_gcj_support:%{?_gcj_support:%{_gcj_support}}%{!?_gcj_support:0}}}
 
 %define section     free
 %define repo_dir    m2_repo/repository
@@ -98,6 +98,7 @@ Javadoc for %{name}.
 
 %prep
 %setup -q -n plexus-mail-sender
+%{__perl} -pi -e 's|Security\.addProvider|//Security\.addProvider|' plexus-mail-senders/plexus-mail-sender-javamail/src/main/java/org/codehaus/plexus/mailsender/javamail/JavamailMailSender.java
 
 %build
 cp %{SOURCE3} maven2-settings.xml
