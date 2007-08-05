@@ -37,7 +37,7 @@
 
 Name:           plexus-mail-sender
 Version:        1.0
-Release:        %mkrel 0.a2.3.0.1
+Release:        %mkrel 0.a2.3.0.2
 Epoch:          0
 Summary:        Plexus Archiver Component
 License:        Apache Software License
@@ -52,6 +52,7 @@ Source3:        maven2-settings.xml
 
 BuildRequires:  jpackage-utils >= 0:1.6
 BuildRequires:  maven2 >= 0:2.0.4
+BuildRequires:  maven2-plugin-resources
 BuildRequires:  saxon
 BuildRequires:  saxon-scripts
 BuildRequires:  dumbster
