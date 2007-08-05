@@ -55,6 +55,7 @@ BuildRequires:  maven2 >= 0:2.0.4
 BuildRequires:  maven2-plugin-compiler
 BuildRequires:  maven2-plugin-install
 BuildRequires:  maven2-plugin-jar
+BuildRequires:  maven2-plugin-javadoc
 BuildRequires:  maven2-plugin-resources
 BuildRequires:  maven2-plugin-surefire
 BuildRequires:  saxon
