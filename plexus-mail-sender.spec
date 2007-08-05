@@ -53,6 +53,7 @@ Source3:        maven2-settings.xml
 BuildRequires:  jpackage-utils >= 0:1.6
 BuildRequires:  maven2 >= 0:2.0.4
 BuildRequires:  maven2-plugin-compiler
+BuildRequires:  maven2-plugin-install
 BuildRequires:  maven2-plugin-jar
 BuildRequires:  maven2-plugin-resources
 BuildRequires:  maven2-plugin-surefire
