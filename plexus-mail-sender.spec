@@ -37,9 +37,9 @@
 
 Name:           plexus-mail-sender
 Version:        1.0
-Release:        %mkrel 0.a2.3.0.2
+Release:        %mkrel 0.a2.3.0.3
 Epoch:          0
-Summary:        Plexus Archiver Component
+Summary:        Plexus Mail Sender Component
 License:        Apache Software License
 Group:          Development/Java
 URL:            http://plexus.codehaus.org/
@@ -131,7 +131,7 @@ ln -s %{_javadir} external_repo/JPP
 MVN=/usr/bin/mvn
 export M2SETTINGS=$(pwd)/maven2-settings.xml
 export MAVEN_REPO_LOCAL=`pwd`/%{repo_dir}
-export MAVEN_OPTS="-Dmaven.repo.local=$MAVEN_REPO_LOCAL -Dmaven2.jpp.mode=true -Dmaven.test.failure.ignore=true"
+export MAVEN_OPTS="-Dmaven.repo.local=$MAVEN_REPO_LOCAL -Dmaven2.jpp.mode=true -Dmaven.test.failure.ignore=true -Dmaven.test.skip=true"
 ${MVN} -s ${M2SETTINGS} ${MAVEN_OPTS} install javadoc:javadoc
 
 
