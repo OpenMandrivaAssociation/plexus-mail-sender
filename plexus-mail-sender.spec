@@ -37,7 +37,7 @@
 
 Name:           plexus-mail-sender
 Version:        1.0
-Release:        %mkrel 0.a2.3.0.3
+Release:        %mkrel 0.a2.3.0.4
 Epoch:          0
 Summary:        Plexus Mail Sender Component
 License:        Apache Software License
@@ -69,8 +69,6 @@ Requires:  plexus-container-default
 Requires:  plexus-utils 
 %if %{gcj_support}
 BuildRequires:          java-gcj-compat-devel
-Requires(post):         java-gcj-compat
-Requires(postun):       java-gcj-compat
 %endif
 %if ! %{gcj_support}
 BuildArch:      noarch
