@@ -37,7 +37,7 @@
 
 Name:           plexus-mail-sender
 Version:        1.0
-Release:        %mkrel 0.a2.3.0.4
+Release:        %mkrel 0.a2.3.0.5
 Epoch:          0
 Summary:        Plexus Mail Sender Component
 License:        Apache Software License
@@ -50,7 +50,7 @@ Source1:        %{name}-mapdeps.xsl
 Source2:        %{name}-jpp-depmap.xml
 Source3:        maven2-settings.xml
 
-BuildRequires:  jpackage-utils >= 0:1.6
+BuildRequires:  java-rpmbuild >= 0:1.6
 BuildRequires:  maven2 >= 0:2.0.4
 BuildRequires:  maven2-plugin-compiler
 BuildRequires:  maven2-plugin-install
