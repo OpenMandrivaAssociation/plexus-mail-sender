@@ -70,6 +70,7 @@ BuildRequires:  maven2-plugin-release
 BuildRequires:  maven2-plugin-surefire
 BuildRequires:  maven2-plugin-resources
 %endif
+BuildRequires:  ant
 BuildRequires:  saxon
 BuildRequires:  saxon-scripts
 BuildRequires:  dumbster
