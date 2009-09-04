@@ -45,7 +45,7 @@
 
 Name:           plexus-mail-sender
 Version:        1.0
-Release:        %mkrel 0.a2.4.0.1
+Release:        %mkrel 0.a2.4.0.2
 Epoch:          0
 Summary:        Plexus Mail Sender Component
 License:        Apache Software License
