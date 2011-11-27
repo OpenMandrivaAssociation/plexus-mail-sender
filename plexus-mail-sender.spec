@@ -32,7 +32,7 @@
 
 Name:           plexus-mail-sender
 Version:        1.0
-Release:        0.a2.18.1
+Release:        0.a2.18.3
 Summary:        Plexus Mail Sender
 License:        MIT and ASL 1.1
 Group:          Development/Java
