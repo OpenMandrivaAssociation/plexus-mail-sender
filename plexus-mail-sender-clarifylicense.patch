@@ -1,0 +1,43 @@
+Index: archive/plexus-components/plexus-mail-sender/plexus-mail-sender-api/src/main/java/org/codehaus/plexus/mailsender/util/DateFormatUtils.java
+===================================================================
+diff -u -N -r7637 -r8336
+--- archive/plexus-components/plexus-mail-sender/plexus-mail-sender-api/src/main/java/org/codehaus/plexus/mailsender/util/DateFormatUtils.java	(.../DateFormatUtils.java)	(revision 7637)
++++ archive/plexus-components/plexus-mail-sender/plexus-mail-sender-api/src/main/java/org/codehaus/plexus/mailsender/util/DateFormatUtils.java	(.../DateFormatUtils.java)	(revision 8336)
+@@ -1,7 +1,27 @@
+ package org.codehaus.plexus.mailsender.util;
+ 
+ /*
+- * LICENSE
++ * The MIT License
++ *
++ * Copyright (c) 2005, The Codehaus
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy of
++ * this software and associated documentation files (the "Software"), to deal in
++ * the Software without restriction, including without limitation the rights to
++ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is furnished to do
++ * so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in all
++ * copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
+  */
+ 
+ import java.text.SimpleDateFormat;
+@@ -10,7 +30,7 @@
+ 
+ /**
+  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
+- * @version $Id: DateFormatUtils.java 2338 2005-07-19 10:17:07Z evenisse $
++ * @version $Id: DateFormatUtils.java 8336 2009-08-12 14:19:22Z bentmann $
+  */
+ public class DateFormatUtils
+ {
