@@ -1,5 +1,2 @@
 sources:
-  "maven2-settings.xml:"	676287cc73e8ac20fe1e45343c34eff916ee67a9
-  "plexus-mail-sender-1.0-a2-src.tar.gz:"	2bd9aaa91d7d2c3ed59fc007a1b19e8b30528e8f
-  "plexus-mail-sender-jpp-depmap.xml:"	065651701dd00713634f4a39137b98a1969e2c7a
-  "plexus-mail-sender-mapdeps.xsl:"	9e95ea35c5c14e3e5ae381972cbcfa0482706356
+  plexus-mail-sender-1.0-a2-src.tar.gz: 2bd9aaa91d7d2c3ed59fc007a1b19e8b30528e8f

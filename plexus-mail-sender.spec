@@ -1,3 +1,4 @@
+%{?_javapackages_macros:%_javapackages_macros}
 # Copyright (c) 2000-2007, JPackage Project
 # All rights reserved.
 #
@@ -32,10 +33,11 @@
 
 Name:           plexus-mail-sender
 Version:        1.0
-Release:        0.a2.18.3
+Release:        0.a2.24.0%{?dist}.1
+Epoch:          0
 Summary:        Plexus Mail Sender
 License:        MIT and ASL 1.1
-Group:          Development/Java
+
 URL:            http://plexus.codehaus.org/
 # svn export http://svn.codehaus.org/plexus/tags/PLEXUS_MAIL_SENDER_1_0_ALPHA_2/
 # Note: Exported revision 8188.
@@ -43,16 +45,12 @@ URL:            http://plexus.codehaus.org/
 # tar czf plexus-mail-sender-1.0-a2-src.tar.gz plexus-mail-sender-1.0-a2
 Source0:        plexus-mail-sender-%{version}-a2-src.tar.gz
 
-Source1:        %{name}-mapdeps.xsl
-Source2:        %{name}-jpp-depmap.xml
-Source3:        maven2-settings.xml
-
 # http://jira.codehaus.org/browse/PLX-417
 # http://fisheye.codehaus.org/rdiff/plexus?csid=8336&u&N
 Patch0:         %{name}-clarifylicense.patch
 
 BuildRequires:  jpackage-utils >= 0:1.6
-BuildRequires:  maven2 >= 0:2.0.4
+BuildRequires:  maven-local
 BuildRequires:  maven-compiler-plugin
 BuildRequires:  maven-install-plugin
 BuildRequires:  maven-jar-plugin
@@ -61,15 +59,10 @@ BuildRequires:  maven-resources-plugin
 BuildRequires:  maven-site-plugin
 BuildRequires:  maven-surefire-plugin
 BuildRequires:  maven-doxia-sitetools
-BuildRequires:  dumbster
 BuildRequires:  saxon
 BuildRequires:  saxon-scripts
-BuildRequires:  java-devel >= 0:1.6.0
+BuildRequires:  java-devel >= 1:1.6.0
 
-Requires:       java
-Requires:       jpackage-utils
-Requires(post): jpackage-utils
-Requires(postun):jpackage-utils
 
 BuildArch:      noarch
 
@@ -85,75 +78,142 @@ Plexus component provides SMTP transport.
 
 %package javadoc
 Summary:        Javadoc for %{name}
-Group:          Development/Java
-Requires:       jpackage-utils
+
 
 %description javadoc
 Javadoc for %{name}.
 
+
 %prep
 %setup -q -n %{name}-%{version}-a2
-
 %patch0 -p3
-# fix groupIds of plexus to org.codehaus.plexus
-# mainly to
-find . -name release-pom.xml -exec \
-     sed -i 's:<groupId>plexus</groupId>:<groupId>org.codehaus.plexus</groupId>:' \{\} \;
 
-%build
-export MAVEN_REPO_LOCAL=$(pwd)/.m2/repository
-mkdir -p $MAVEN_REPO_LOCAL
+mv release-pom.xml pom.xml
 
-mvn-jpp \
-        -e \
-        -Dmaven2.jpp.depmap.file="%{SOURCE2}" \
-        -Dmaven.repo.local=$MAVEN_REPO_LOCAL \
-        -Dmaven.test.skip=true \
-        install javadoc:aggregate
-
-%install
-# jars
-install -d -m 755 $RPM_BUILD_ROOT%{_javadir}/plexus
-install -d -m 755 $RPM_BUILD_ROOT%{_mavenpomdir}
 pushd plexus-mail-senders
+mv release-pom.xml pom.xml
+%pom_disable_module plexus-mail-sender-test
 for mod in javamail simple test;do
     pushd %{name}-$mod
-    install -pm 644 target/%{name}-$mod-%{namedversion}-SNAPSHOT.jar \
-            $RPM_BUILD_ROOT%{_javadir}/plexus/mail-sender-$mod.jar
-    install -pm 644 release-pom.xml $RPM_BUILD_ROOT/%{_mavenpomdir}/JPP.plexus-mail-sender-$mod.pom
-    %add_to_maven_depmap org.codehaus.plexus %{name}-$mod %{version} JPP/plexus mail-sender-$mod
-    %add_to_maven_depmap plexus %{name}-$mod %{version} JPP/plexus mail-sender-$mod
+    mv release-pom.xml pom.xml
     popd
 done
 popd
 
-install -pm 644 \
-  %{name}-api/target/%{name}-api-%{namedversion}-SNAPSHOT.jar \
-  $RPM_BUILD_ROOT%{_javadir}/plexus/mail-sender-api.jar
-install -pm 644 %{name}-api/release-pom.xml $RPM_BUILD_ROOT/%{_mavenpomdir}/JPP.plexus-mail-sender-api.pom
-%add_to_maven_depmap org.codehaus.plexus %{name}-api %{version} JPP/plexus mail-sender-api
-%add_to_maven_depmap plexus %{name}-api %{version} JPP/plexus mail-sender-api
+mv %{name}-api/release-pom.xml %{name}-api/pom.xml
+find . -iname 'pom.xml' -exec sed -i \
+       's:<groupId>plexus</groupId>:<groupId>org.codehaus.plexus</groupId>:g' \{\} \;
 
 
-# javadoc
-install -d -m 755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}
-cp -pr target/site/apidocs/* \
-  $RPM_BUILD_ROOT%{_javadocdir}/%{name}
+%build
+%mvn_package ":*senders" __noinstall
+%mvn_build -f
 
-%post
-%update_maven_depmap
+%install
+%mvn_install
 
-%postun
-%update_maven_depmap
+%files -f .mfiles
+
+%files javadoc -f .mfiles-javadoc
 
 
-%files
-%defattr(-,root,root,-)
-%{_mavendepmapfragdir}/%{name}
-%{_mavenpomdir}/*pom
-%{_javadir}/*
+%changelog
+* Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0:1.0-0.a2.24.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
-%files javadoc
-%defattr(-,root,root,-)
-%{_javadocdir}/*
+* Thu Feb  7 2013 Mikolaj Izdebski <mizdebsk@redhat.com> - 0:1.0-0.a2.24
+- Fix release tag
 
+* Wed Feb 06 2013 Java SIG <java-devel@lists.fedoraproject.org> - 0:1.0-0.a2.24
+- Update for https://fedoraproject.org/wiki/Fedora_19_Maven_Rebuild
+- Replace maven BuildRequires with maven-local
+
+* Thu Jan 24 2013 Michal Srb <msrb@redhat.com> - 0:1.0-0.a2.23
+- Build with xmvn
+- Fixed pom_ macro
+
+* Thu Oct 11 2012 Stanislav Ochotnicky <sochotnicky@redhat.com> - 0:1.0-0.a2.22
+- Do not build test submodule to simplify dependencies
+
+* Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0:1.0-0.a2.21.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
+* Fri Mar  2 2012 Stanislav Ochotnicky <sochotnicky@redhat.com> 0:1.0-0.a2.21
+- Fix build and install proper pom files
+
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0:1.0-0.a2.20.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
+* Wed Dec 7 2011 Stanislav Ochotnicky <sochotnicky@redhat.com> - 0:1.0-0.a2.20
+- Fix up according to latest guidelines
+
+* Sun Jun 12 2011 Alexander Kurtakov <akurtako@redhat.com> 0:1.0-0.a2.19
+- Build with maven 3.x
+
+* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0:1.0-0.a2.18.1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
+* Wed Jan 19 2011 Stanislav Ochotnicky <sochotnicky@redhat.com> - 0:1.0-0.a2.18
+- Add update_maven_depmap execution to post/postun (#669495)
+
+* Thu Dec 16 2010 Stanislav Ochotnicky <sochotnicky@redhat.com> - 0:1.0-0.a2.17
+- Add maven metadata
+
+* Mon Dec 13 2010 Alexander Kurtakov <akurtako@redhat.com> 0:1.0-0.a2.16
+- Fix FTBFS.
+- Adapt to current guidelines.
+
+* Wed Sep  8 2010 Stanislav Ochotnicky <sochotnicky@redhat.com> - 0:1.0-0.a2.15
+- Add maven-site-plugin to BR
+- Update maven-plugin BR names
+
+* Mon Feb 15 2010 Alexander Kurtakov <akurtako@redhat.com> 0:1.0-0.a2.14
+- Remove dummy things from the depmap.
+- Remove workaround for old javadoc plugin.
+
+* Mon Nov 23 2009 Alexander Kurtakov <akurtako@redhat.com> 0:1.0-0.a2.13
+- BR maven-doxia-sitetools.
+
+* Fri Aug 21 2009 Andrew Overholt <overholt@redhat.com> 0:1.0-0.a2.12
+- Force OpenJDK
+
+* Fri Aug 21 2009 Andrew Overholt <overholt@redhat.com> 0:1.0-0.a2.11
+- Add BRs on maven2-plugin-{compiler,surefire,jar,install.javadoc}
+
+* Fri Aug 21 2009 Andrew Overholt <overholt@redhat.com> 0:1.0-0.a2.10
+- Add BR on maven2-plugin-resources
+
+* Fri Aug 21 2009 Andrew Overholt <overholt@redhat.com> 0:1.0-0.a2.9
+- Remove gcj support
+- Remove javadoc post scriplet
+- Add patch to clarify license (http://jira.codehaus.org/browse/PLX-417)
+- Fix license
+- Use tarball with versioned directory
+
+* Sun May 17 2009 Fernando Nasser <fnasser@redhat.com> - 0:1.0-0.a2.8
+- Fix license
+
+* Tue Apr 30 2009 Yong Yang <yyang@redhat.com> - 0:1.0-0.a2.7
+- Don't run the tests as they reqyuire access to the net
+- Add BRs maven-doxia*
+- Rebuild with new maven2 2.0.8 built in non-bootstrap mode
+
+* Tue Mar 17 2009 Yong Yang <yyang@redhat.com> - 0:1.0-0.a2.6
+- rebuild with new maven2 2.0.8 built in bootstrap mode
+
+* Thu Feb 05 2009 Yong Yang <yyang@redhat.com> - 0:1.0-0.a2.5
+- Fix release tag
+
+* Wed Jan 14 2009 Yong Yang <yyang@redhat.com> - 0:1.0-0.a2.4jpp
+- Import from dbhole's maven packages, initial building
+
+* Tue May 15 2007 Ralph Apel <r.apel at r-apel.de> - 0:1.0-0.a2.3jpp
+- Make Vendor, Distribution based on macro
+
+* Thu Mar 15 2007 Ralph Apel <r.apel at r-apel.de> - 0:1.0-0.a2.2jpp
+- Add dumbster BR
+
+* Wed Sep 13 2006 Ralph Apel <r.apel at r-apel.de> - 0:1.0-0.a2.1jpp
+- First JPP-1.7 release
+- Add post/postun Requires for javadoc
+- Add gcj_support option
