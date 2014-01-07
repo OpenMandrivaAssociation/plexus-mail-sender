@@ -112,6 +112,7 @@ find . -iname 'pom.xml' -exec sed -i \
 %install
 %mvn_install
 %if 0%{?fedora}
+%else
 sed -i "s|1.0-alpha-2-SNAPSHOT|1.0.alpha.2.SNAPSHOT|" %{buildroot}%{_mavendepmapfragdir}/*
 %endif
 
