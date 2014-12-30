@@ -33,9 +33,10 @@
 
 Name:           plexus-mail-sender
 Version:        1.0
-Release:        0.a2.24.0%{?dist}.1
+Release:        0.a2.28.0.1
 Epoch:          0
 Summary:        Plexus Mail Sender
+Group:          Development/Java
 License:        MIT and ASL 1.1
 
 URL:            http://plexus.codehaus.org/
@@ -113,7 +114,7 @@ find . -iname 'pom.xml' -exec sed -i \
 %mvn_install
 %if 0%{?fedora}
 %else
-sed -i "s|1.0-alpha-2-SNAPSHOT|1.0.alpha.2.SNAPSHOT|" %{buildroot}%{_mavendepmapfragdir}/*
+sed -i "s|1.0-alpha-2-SNAPSHOT|1.0.alpha.2.SNAPSHOT|" %{buildroot}%{_datadir}/maven-metadata/*
 %endif
 
 %files -f .mfiles
