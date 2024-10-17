@@ -39,7 +39,7 @@ Summary:        Plexus Mail Sender
 Group:          Development/Java
 License:        MIT and ASL 1.1
 
-URL:            http://plexus.codehaus.org/
+URL:            https://plexus.codehaus.org/
 # svn export http://svn.codehaus.org/plexus/tags/PLEXUS_MAIL_SENDER_1_0_ALPHA_2/
 # Note: Exported revision 8188.
 # mv PLEXUS_MAIL_SENDER_1_0_ALPHA_2/ plexus-mail-sender-1.0-a2
